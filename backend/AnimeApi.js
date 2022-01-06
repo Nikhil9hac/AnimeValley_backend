@@ -87,3 +87,21 @@ export const ongoingSeries=async()=>{
         console.log(error)
     }
 }
+export const Genres=async(anime)=>{
+    const GenresAnimeContainer=[]
+    try {
+        const response=await got(`https://www.animefreak.site/anime/genre/${anime}`);
+        const data=new JSDOM(response.body);
+        data.window.document.querySelectorAll('img').forEach((val,index)=>{
+            if (index!=0) {
+                GenresAnimeContainer.push({img:"https:"+val.src})
+            }
+        })
+        data.window.document.querySelectorAll(".ani-name").forEach((val,index)=>{
+            GenresAnimeContainer[index].add=val.textContent.trim()
+        })
+        return GenresAnimeContainer;
+    } catch (error) {
+        console.log(error)
+    }
+}

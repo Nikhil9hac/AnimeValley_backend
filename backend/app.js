@@ -1,6 +1,6 @@
 import express from "express";
 import {displayAnime,popularAnime,animeMovie,ongoingSeries,Genres} from "./AnimeApi.js";
-import {searchAnime} from "./SearchApi.js"
+import {searchAnime,InfoAnime,totalEpisode,animeVideoAndEpisode} from "./SearchApi.js"
 const app=express();
 const port=8000;
 
@@ -34,6 +34,27 @@ app.post("/search/anime/:id",async(req,res)=>{
         console.log(error)
     }
 })
+app.post("/info/anime/:id",async(req,res)=>{
+        try {
+            res.status(200).send(await InfoAnime(req.params.id))
+        } catch (error) {
+            console.log(error)
+        }
+})
+app.post("/video/anime/:name/:eps",async(req,res)=>{
+    try {
+        res.status(200).send(await animeVideoAndEpisode(req.params.name,req.params.eps))
+    } catch (error) {
+        console.log(error)
+    }
+})
+app.post("/eps/anime/:id",async(req,res)=>{
+    try {
+       res.send(await totalEpisode(req.params.id))
+    } catch (error) {
+        console.log(error)
+    }
+})
 app.listen(port,()=>{
-    console.log('listening ......')
+    console.log('listening....')
 })

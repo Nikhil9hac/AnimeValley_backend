@@ -28,4 +28,46 @@ export const searchAnime=async(anime)=>{
         console.log(error)
     }
 }
-searchAnime()
+export const InfoAnime=async(anime)=>{
+    const AnimeInformation=[];
+   try {
+    const res=await got(`https://ww1.gogoanime2.org/anime/${anime}`)
+    const data=new JSDOM(res.body);
+    const anime_img="https://ww1.gogoanime2.org/"+data.window.document.querySelector(".anime_info_body_bg > img").src;
+    const anime_name=data.window.document.querySelector("h1").textContent.trim();
+    const anime_type=data.window.document.querySelectorAll(".type")[0].textContent.trim();
+    const anime_plot=data.window.document.querySelectorAll(".type")[1].textContent.trim();
+    const anime_genres=data.window.document.querySelectorAll(".type")[2].textContent.trim();
+    const anime_status=data.window.document.querySelectorAll(".type")[3].textContent.trim();
+    AnimeInformation.push({img:anime_img,name:anime_name,plot:anime_plot,type:anime_type,genres:anime_genres,status:anime_status})
+    return AnimeInformation;
+   } catch (error) {
+       console.log(error)
+   }
+}
+export const animeVideoAndEpisode=async(anime,ep)=>{
+    const videoLink=[]
+    try {
+        const gogo=await got(`https://ww1.gogoanime2.org/watch/${anime}/${ep}`);
+        const gogoWeb=new JSDOM(gogo.body);
+        const videoSrc="https://ww1.gogoanime2.org"+gogoWeb.window.document.getElementById("playerframe").src;
+        videoLink.push(videoSrc);
+        console.log(videoLink)
+        return videoLink;
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const totalEpisode=async(ep)=>{
+    const totalEpisodeList=[]
+    try {
+        const res=await got(`https://ww1.gogoanime2.org/anime/${ep}`);
+        const data=new JSDOM(res.body);
+        const totalEp=data.window.document.querySelectorAll(".name").forEach((val)=>{
+            totalEpisodeList.push(val.textContent.replace('EP',""))
+        })
+        return totalEpisodeList;
+    } catch (error) {
+        console.log(error)
+    }
+}

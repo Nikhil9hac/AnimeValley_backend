@@ -59,14 +59,13 @@ export const animeVideoAndEpisode=async(anime,ep)=>{
     }
 }
 export const totalEpisode=async(ep)=>{
-    const totalEpisodeList=[]
+    let animeInfo=[]
     try {
         const res=await got(`https://ww1.gogoanime2.org/anime/${ep}`);
         const data=new JSDOM(res.body);
-        const totalEp=data.window.document.querySelectorAll(".name").forEach((val)=>{
-            totalEpisodeList.push(val.textContent.replace('EP',""))
-        })
-        return totalEpisodeList;
+        const totalEp=data.window.document.querySelectorAll("#episode_related>li").length;
+        animeInfo.push({Episode:totalEp})
+        return animeInfo
     } catch (error) {
         console.log(error)
     }

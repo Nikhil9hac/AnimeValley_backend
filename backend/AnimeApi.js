@@ -5,7 +5,7 @@ const { JSDOM } = jsdom;
 export const displayAnime=async()=>{
     const DisplayAnimeList=[]
     try {
-        const response=await got('https://gogoplay1.com/');
+        const response=await got('https://gogoplay1.com');
         const data=new JSDOM(response.body);
         data.window.document.querySelectorAll("img").forEach((val,index)=>{
             if(index!=0){
@@ -20,7 +20,7 @@ export const displayAnime=async()=>{
         })
         return DisplayAnimeList
     } catch (error) {
-        console.log("error")
+        console.log(error)
     }
 }
 export const popularAnime=async()=>{

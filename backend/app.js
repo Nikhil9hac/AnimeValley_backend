@@ -2,7 +2,7 @@ import express from "express";
 import {displayAnime,popularAnime,animeMovie,ongoingSeries,Genres} from "./AnimeApi.js";
 import {searchAnime,InfoAnime,totalEpisode,animeVideoAndEpisode} from "./SearchApi.js"
 const app=express();
-const port=8000;
+const port=process.env.PORT||8000;
 
 app.post("/displayAnime",async(req,res)=>{
     try {
@@ -55,6 +55,10 @@ app.post("/eps/anime/:id",async(req,res)=>{
         console.log(error)
     }
 })
+if (process.env.NODE_ENV=="production") {
+    app.use(express.static("client/build"))
+}
+
 app.listen(port,()=>{
     console.log('listening....')
 })

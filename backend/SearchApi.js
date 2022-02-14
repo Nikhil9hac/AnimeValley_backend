@@ -2,7 +2,7 @@ import got from 'got';
 import jsdom from "jsdom"
 const { JSDOM } = jsdom;
 
-export const searchAnime=async(anime)=>{
+export const searchAnimeGogo=async(anime)=>{
     const serachAnimeList=[]
     try {
         const res=await got(`https://ww1.gogoanime2.org/search/${anime}`);
@@ -24,6 +24,40 @@ export const searchAnime=async(anime)=>{
         })
         return serachAnimeList;
         
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const searchAnimeAni=async(anime)=>{
+    const serachAnimeList=[]
+    try {
+        const res=await got(`https://gogoplay1.com/search.html?keyword=${anime}`);
+        const data=new JSDOM(res.body);
+        data.window.document.querySelectorAll("img").forEach((val,index)=>{
+            if (index>0) {
+                serachAnimeList.push({img:val.src})
+            }
+        })
+        data.window.document.querySelectorAll(".name").forEach((val,index)=>{
+            serachAnimeList[index].name=val.textContent.trim();
+        })
+       return serachAnimeList;
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const searchAnimeRush=async(anime)=>{
+    const serachAnimeList=[]
+    try {
+        const res=await got(`https://www.animerush.tv/search.php?searchquery=${anime}`);
+        const data=new JSDOM(res.body);
+        data.window.document.querySelectorAll("object").forEach((val)=>{
+            serachAnimeList.push({data:val.data})
+        })
+        data.window.document.querySelectorAll(".search-page_in_box_mid_link h3").forEach((val,index)=>{
+            serachAnimeList[index].name=val.textContent.trim();
+        })
+       return serachAnimeList
     } catch (error) {
         console.log(error)
     }

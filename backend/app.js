@@ -1,6 +1,6 @@
 import express from "express";
 import {displayAnime,popularAnime,animeMovie,ongoingSeries,Genres} from "./AnimeApi.js";
-import {searchAnime,InfoAnime,totalEpisode,animeVideoAndEpisode} from "./SearchApi.js"
+import {searchAnimeGogo,searchAnimeAni,InfoAnime,totalEpisode,animeVideoAndEpisode, searchAnimeRush} from "./SearchApi.js"
 const app=express();
 const port=process.env.PORT||8000;
 
@@ -27,9 +27,23 @@ app.post("/genres/:id",async(req,res)=>{
         console.log(error)
     }
 })
-app.post("/search/anime/:id",async(req,res)=>{
+app.post("/search/anime/gogo/:id",async(req,res)=>{
     try {
-        res.status(200).send(await searchAnime(req.params.id))
+        res.status(200).send(await searchAnimeGogo(req.params.id))
+    } catch (error) {
+        console.log(error)
+    }
+})
+app.post("/search/anime/ani/:id",async(req,res)=>{
+    try {
+        res.status(200).send(await searchAnimeAni(req.params.id))
+    } catch (error) {
+        console.log(error)
+    }
+})
+app.post("/search/anime/rush/:id",async(req,res)=>{
+    try {
+        res.status(200).send(await searchAnimeRush(req.params.id))
     } catch (error) {
         console.log(error)
     }

@@ -8,11 +8,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node backend/app.js",
     "dev": "nodemon backend/app.js",
-    "heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "Nikhil",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.2",
     "got": "^12.0.0",
     "jsdom": "^19.0.0",

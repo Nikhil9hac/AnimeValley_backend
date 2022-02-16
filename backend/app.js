@@ -1,9 +1,10 @@
 import express from "express";
 import {displayAnime,popularAnime,animeMovie,ongoingSeries,Genres} from "./AnimeApi.js";
-import {searchAnimeGogo,searchAnimeAni,InfoAnime,totalEpisode,animeVideoAndEpisode, searchAnimeRush} from "./SearchApi.js"
+import {searchAnimeGogo,searchAnimeAni,InfoAnime,totalEpisode,animeVideoAndEpisode, searchAnimeRush,displayAnimePage,ongoingAnimePage,popularAnimePage,animeMoviePage} from "./SearchApi.js"
+import cors from "cors"
 const app=express();
 const port=process.env.PORT||8000;
-
+app.use(cors());
 app.post("/displayAnime",async(req,res)=>{
     try {
         res.status(200).send(await displayAnime())
@@ -65,6 +66,34 @@ app.post("/video/anime/:name/:eps",async(req,res)=>{
 app.post("/eps/anime/:id",async(req,res)=>{
     try {
        res.send(await totalEpisode(req.params.id))
+    } catch (error) {
+        console.log(error)
+    }
+})
+app.post("/displayAnime/page/:id",async(req,res)=>{
+    try {
+        res.send(await displayAnimePage(req.params.id))
+    } catch (error) {
+        console.log(error)
+    }
+})
+app.post("/ongoingAnime/page/:id",async(req,res)=>{
+    try {
+        res.send(await ongoingAnimePage(req.params.id))
+    } catch (error) {
+        console.log(error)
+    }
+})
+app.post("/popularAnime/page/:id",async(req,res)=>{
+    try {
+        res.send(await popularAnimePage(req.params.id))
+    } catch (error) {
+        console.log(error)
+    }
+})
+app.post("/animeMovie/page/:id",async(req,res)=>{
+    try {
+        res.send(await animeMoviePage(req.params.id))
     } catch (error) {
         console.log(error)
     }
